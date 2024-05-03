@@ -1,0 +1,27 @@
+components:
+  schemas: {}
+  securitySchemes:
+    bearerAuth:
+      scheme: bearer
+      type: http
+info:
+  title: ECCOMERCE API
+  version: 1.0.0
+  description: This project is a queue message
+openapi: 3.0.0
+paths:
+  /health:
+    get:
+      operationId: Health.getHealth
+      responses:
+        "200":
+          content:
+            application/json: {}
+          description: Successful response
+      summary: Server Health
+      tags:
+        - Health
+      description: This is to check if server is running
+servers:
+  - url: http://localhost:8080
+    description: Development
