@@ -22,7 +22,6 @@ export default async function startupDB() {
   }
 }
 
-
 async function runSeeds() {
   await PlanEntity.save({
     id: '0e0643bf-fae3-4d50-b48a-75833f77b795',

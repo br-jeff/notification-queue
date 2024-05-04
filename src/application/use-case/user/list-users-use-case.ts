@@ -2,7 +2,6 @@ import { injectable } from "tsyringe";
 import { DefaultListUseCaseType } from "../../types/default-use-case";
 import { UserRepository } from "../../../external/database/repository/user.repository";
 
-
 @injectable()
 export class ListUsersUseCase {
     constructor(private readonly userRepository: UserRepository) { }

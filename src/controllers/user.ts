@@ -11,15 +11,18 @@ import { Transaction } from "typeorm";
 import { CreateUserSchema } from "../domain/schemas/create-user.schema";
 import { LoginUseCase } from "../application/use-case/user/login-use-case";
 import { LoginSchema } from "../domain/schemas/login-schema";
+import { ValidatePermissionProvider } from "../domain/providers/validate-permission-provider";
 
 @JsonController('/user')
 @injectable()
 export class  UserController {
+
+
     constructor(
         private readonly listUsersUseCase: ListUsersUseCase,
         private readonly createUserUseCase: CreateUserUseCase,
         private readonly loginUseCase: LoginUseCase,
-
+        private readonly validatePermissionProvider : ValidatePermissionProvider
     ) { }
 
     @OpenAPI({
@@ -29,7 +32,7 @@ export class  UserController {
     @Get('/list')
     @Authorized()
     list(@StrictQueryParams() pagination: PaginationSchema, @CurrentUser() user: UserEntity) {
-        return this.listUsersUseCase.execute({ pagination })
+        return this.listUsersUseCase.execute({ filters: { companyId: user.companyId }, pagination })
     }
 
     @OpenAPI({
@@ -37,7 +40,8 @@ export class  UserController {
         description: 'This route list users by user company_id'
     })
     @Post('/create/:companyId')
-    create(@Param('companyId') companyId: string, @StrictBody() body: CreateUserSchema, trx: Transaction) {
+    create(@Param('companyId') companyId: string, @StrictBody() body: CreateUserSchema, user: UserEntity, trx: Transaction) {
+        this.validatePermissionProvider.validateCompany(user, companyId)
         const data = {...body, companyId} as UserEntity
         return this.createUserUseCase.execute({ data, trx })
     }
