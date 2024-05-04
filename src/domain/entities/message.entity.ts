@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Generated, Column, BaseEntity } from "typeorm"
 
-@Entity()
+@Entity('companies')
 export default class MessageEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     @Generated('uuid') 

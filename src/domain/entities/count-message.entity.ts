@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Generated, Column, BaseEntity } from "typeorm"
 
-@Entity()
+@Entity('count_messages')
 export default class CountMessageEntity extends BaseEntity{
     @PrimaryGeneratedColumn('uuid')
     @Generated('uuid') 
