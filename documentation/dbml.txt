@@ -4,13 +4,14 @@
 Table plans {
     id uuid [primary key]
     name string
-    messages_per_month integer
+    message_per_month integer
     created_at timestamp 
   }
   
   Table companies {
     id uuid [primary key]
     plan_id varchar
+    name varchar
     created_at timestamp
   }
   

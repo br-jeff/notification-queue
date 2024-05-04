@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Generated, Column, BaseEntity } from "typeorm"
 
-@Entity()
+@Entity('companies')
 export class CompanyEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     @Generated('uuid') 
@@ -8,4 +8,7 @@ export class CompanyEntity extends BaseEntity {
 
     @Column()
     plan_id: string
+
+    @Column()
+    name: string
 }

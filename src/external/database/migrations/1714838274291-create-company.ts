@@ -16,6 +16,12 @@ export default class Company1714838274291 implements MigrationInterface {
                 type: 'uuid',
                 isNullable: false,
             },
+            {
+                name: 'name',
+                type: 'varchar',
+                isNullable: false,
+            },
+            
         ],
     })
 
