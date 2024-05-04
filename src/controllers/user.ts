@@ -2,7 +2,7 @@ import { Authorized, CurrentUser, Get, JsonController, Param, Post } from "routi
 import { OpenAPI } from "routing-controllers-openapi";
 import { injectable } from 'tsyringe'
 
-import { StrictBody, StrictQueryParams } from "../external/web/validator";
+import { ArraySerializer, Serializer, StrictBody, StrictQueryParams } from "../external/web/validator";
 import { ListUsersUseCase } from "../application/use-case/user/list-users-use-case";
 import { PaginationSchema } from "../domain/schemas";
 import { CreateUserUseCase } from "../application/use-case/user/create-user-use-case";
@@ -12,11 +12,11 @@ import { CreateUserSchema } from "../domain/schemas/create-user.schema";
 import { LoginUseCase } from "../application/use-case/user/login-use-case";
 import { LoginSchema } from "../domain/schemas/login-schema";
 import { ValidatePermissionProvider } from "../domain/providers/validate-permission-provider";
+import { UserSerializer } from "../domain/serializers/user-serializer";
 
 @JsonController('/user')
 @injectable()
 export class  UserController {
-
 
     constructor(
         private readonly listUsersUseCase: ListUsersUseCase,
@@ -31,6 +31,7 @@ export class  UserController {
     })
     @Get('/list')
     @Authorized()
+    @ArraySerializer(UserSerializer)
     list(@StrictQueryParams() pagination: PaginationSchema, @CurrentUser() user: UserEntity) {
         return this.listUsersUseCase.execute({ filters: { companyId: user.companyId }, pagination })
     }
@@ -40,8 +41,8 @@ export class  UserController {
         description: 'This route list users by user company_id'
     })
     @Post('/create/:companyId')
-    create(@Param('companyId') companyId: string, @StrictBody() body: CreateUserSchema, user: UserEntity, trx: Transaction) {
-        this.validatePermissionProvider.validateCompany(user, companyId)
+    @Serializer(UserSerializer)
+    create(@Param('companyId') companyId: string, @StrictBody() body: CreateUserSchema, trx: Transaction) {
         const data = {...body, companyId} as UserEntity
         return this.createUserUseCase.execute({ data, trx })
     }

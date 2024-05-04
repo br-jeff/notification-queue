@@ -1,5 +1,19 @@
 components:
   schemas:
+    UserSerializer:
+      properties:
+        id:
+          format: uuid
+          type: string
+        name:
+          type: string
+        username:
+          type: string
+      type: object
+      required:
+        - id
+        - name
+        - username
     CreateUserSchema:
       properties:
         name:
@@ -76,8 +90,12 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/UserSerializer"
+                type: array
+          description: ""
       summary: List Users
       tags:
         - User
@@ -102,8 +120,10 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSerializer"
+          description: ""
       summary: Create Users
       tags:
         - User
