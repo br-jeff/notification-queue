@@ -1,13 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Generated, Column, BaseEntity } from "typeorm"
+import { Entity, Column, BaseEntity, PrimaryColumn } from "typeorm"
 
 @Entity('companies')
-export class CompanyEntity extends BaseEntity {
+export class CompanyEntity extends BaseEntity {   
     @PrimaryGeneratedColumn('uuid')
     @Generated('uuid') 
     id: string
 
     @Column()
-    plan_id: string
+    planId: string
 
     @Column()
     name: string
