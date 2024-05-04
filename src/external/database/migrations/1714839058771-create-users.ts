@@ -20,6 +20,11 @@ export default class User1714839058771 implements MigrationInterface {
                 type: 'varchar',
                 isNullable: false,
             },
+            {
+                name: 'password',
+                type: 'varchar',
+                isNullable: false,
+            },
         ],
     })
 

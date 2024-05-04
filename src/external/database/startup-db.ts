@@ -1,3 +1,4 @@
+import { container } from "tsyringe";
 import { CompanyEntity } from "../../domain/entities/company";
 import PlanEntity from "../../domain/entities/plan.entity";
 import UserEntity from "../../domain/entities/user.entity";
@@ -5,6 +6,7 @@ import { NodeEnvEnum } from "../../domain/enums/node-env";
 import settings from "../config/settings";
 import { logger } from "../utils/logger";
 import datasource from "./datasource";
+import { EncryptionProvider } from "../../domain/providers/encryption-provider";
 
 export default async function startupDB() {
   const connection = await datasource.initialize()
@@ -36,6 +38,7 @@ async function runSeeds() {
   await UserEntity.save({
     id: 'afcb2377-cc31-4d92-b81b-c0e9322ceeaa',
     name: 'Admin Company A',
-    company_id: '39f2d121-46b6-46a6-af12-ff614fce57a4'
+    company_id: '39f2d121-46b6-46a6-af12-ff614fce57a4',
+    password: await container.resolve(EncryptionProvider).createHash('123')
   })
 }
