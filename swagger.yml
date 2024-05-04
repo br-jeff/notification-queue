@@ -1,5 +1,17 @@
 components:
-  schemas: {}
+  schemas:
+    PaginationSchema:
+      properties:
+        page:
+          minimum: 0
+          type: number
+        size:
+          type: number
+          minimum: 1
+      type: object
+      required:
+        - page
+        - size
   securitySchemes:
     bearerAuth:
       scheme: bearer
@@ -22,6 +34,31 @@ paths:
       tags:
         - Health
       description: This is to check if server is running
+  /user/list:
+    get:
+      operationId: UserController.list
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            minimum: 0
+            type: number
+        - in: query
+          name: size
+          required: true
+          schema:
+            type: number
+            minimum: 1
+      responses:
+        "200":
+          content:
+            application/json: {}
+          description: Successful response
+      summary: List Users
+      tags:
+        - User
+      description: "This route list users by user company_id "
 servers:
   - url: http://localhost:8080
     description: Development

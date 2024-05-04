@@ -3,9 +3,9 @@ import { IsNumber, Min } from "class-validator"
 
 export class PaginationSchema {
     @Expose()
-    @Transform(({ value }) => value ?? 1)
+    @Transform(({ value }) => value ?? 0)
     @IsNumber()
-    @Min(1)
+    @Min(0)
     page: number
   
     @Expose()
