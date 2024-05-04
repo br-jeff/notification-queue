@@ -3,8 +3,8 @@ import { injectable } from "tsyringe";
 import { DefaultCreateUseCaseType } from "../../types/default-use-case";
 import { EncryptionProvider } from "../../../domain/providers/encryption-provider";
 import { BadRequestError } from "routing-controllers";
-import { UserRepository } from "../../../external/database/repository/user.repository";
 import UserEntity from "../../../domain/entities/user.entity";
+import { UserRepository } from "../../../external/database/repository/user.repository";
 
 
 @injectable()
@@ -14,22 +14,22 @@ export class CreateUserUseCase {
         private readonly encryptionProvider: EncryptionProvider) { }
 
     async execute({ data, trx }: DefaultCreateUseCaseType<UserEntity>) {
-        const { name, companyId, password } = data
-        console.log({ name, companyId })
+        const { username, name, companyId, password } = data
+
         const hasUser = await this.userRepository.getUserNameByCompanyId({
             filters: { 
-                name, 
+                username, 
                 companyId,
                },
             })
 
-            console.log({ hasUser})
-        if (hasUser.length) {
+        if (hasUser) {
             throw new BadRequestError('username is already taken')
         }
 
         const user = {
-            name, 
+            username,
+            name,
             companyId,
             password: await this.encryptionProvider.createHash(password),
 

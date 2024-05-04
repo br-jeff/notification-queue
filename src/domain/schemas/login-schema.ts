@@ -1,9 +1,6 @@
 import { IsString } from "class-validator"
 
-export class CreateUserSchema {
-    @IsString()
-    name: string
-
+export class LoginSchema {
     @IsString()
     username: string
 

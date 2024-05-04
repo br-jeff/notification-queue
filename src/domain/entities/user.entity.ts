@@ -13,5 +13,8 @@ export default class UserEntity extends BaseEntity {
     name: string
 
     @Column()
+    username: string
+
+    @Column()
     password: string
 }

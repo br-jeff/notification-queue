@@ -4,6 +4,7 @@ import { sign, verify } from 'jsonwebtoken'
 type AcessTokenData = {
     id: string
     username: string
+    companyId: string
 }
 
 type VerifyToken = {

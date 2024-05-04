@@ -38,6 +38,7 @@ async function runSeeds() {
   await UserEntity.save({
     id: 'afcb2377-cc31-4d92-b81b-c0e9322ceeaa',
     name: 'Admin Company A',
+    username: 'CompanyA',
     companyId: '39f2d121-46b6-46a6-af12-ff614fce57a4',
     password: await container.resolve(EncryptionProvider).createHash('123')
   })

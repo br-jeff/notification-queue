@@ -4,11 +4,24 @@ components:
       properties:
         name:
           type: string
+        username:
+          type: string
         password:
           type: string
       type: object
       required:
         - name
+        - username
+        - password
+    LoginSchema:
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      type: object
+      required:
+        - username
         - password
     PaginationSchema:
       properties:
@@ -91,10 +104,29 @@ paths:
           content:
             application/json: {}
           description: Successful response
-      summary: List Users
+      summary: Create Users
       tags:
         - User
       description: This route list users by user company_id
+  /user/login:
+    post:
+      operationId: UserController.login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginSchema"
+        description: LoginSchema
+        required: false
+      responses:
+        "200":
+          content:
+            application/json: {}
+          description: Successful response
+      summary: Login
+      tags:
+        - User
+      description: Login route
 servers:
   - url: http://localhost:8080
     description: Development

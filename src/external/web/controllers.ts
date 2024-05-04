@@ -3,9 +3,11 @@ import { Express } from 'express'
 import path from 'path';
 import fs from 'fs';
 import { container } from 'tsyringe';
+import { JWTProvider } from '../../domain/providers/jwt-provider';
+import { UserRepository } from '../database/repository/user.repository';
 
 export function setupControllers(app: Express) {
-    useExpressServer(app, { controllers: getControllers() }) // authorizationChecker, currentUserChecker 
+    useExpressServer(app, { controllers: getControllers(), authorizationChecker, currentUserChecker })
 }
 
 function getControllers() {
@@ -19,11 +21,11 @@ function getControllers() {
 
 async function authorizationChecker(action: Action, _: string[]) {
     try {
-        // TODO: 
-        /* const tokenProvider = container.resolve(JWTProvider)
+  
+      const tokenProvider = container.resolve(JWTProvider)
         const token = action.request.headers.authorization.split(' ')[1]
         const isValid = tokenProvider.verifyToken(token)
-        return !!isValid */
+        return !!isValid
     } catch (err) {
         return false
     }
@@ -31,11 +33,11 @@ async function authorizationChecker(action: Action, _: string[]) {
 
 async function currentUserChecker(action: Action) {
     try {
-       /*  const tokenProvider = container.resolve(JWTProvider)
+        const tokenProvider = container.resolve(JWTProvider)
         const token = action.request.headers.authorization.split(' ')[1]
         const tokenData = tokenProvider.verifyToken(token)
         const userId = tokenData.user.id
-        return container.resolve(UserRepository).findById({ id: userId }) */
+        return container.resolve(UserRepository).findById({ filters: { id: userId } }) 
     } catch (err) {
         return null
     }

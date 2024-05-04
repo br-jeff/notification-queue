@@ -1,4 +1,4 @@
-import { Authorized, Get, JsonController, Param, Post } from "routing-controllers";
+import { Authorized, CurrentUser, Get, JsonController, Param, Post } from "routing-controllers";
 import { OpenAPI } from "routing-controllers-openapi";
 import { injectable } from 'tsyringe'
 
@@ -9,6 +9,8 @@ import { CreateUserUseCase } from "../application/use-case/user/create-user-use-
 import UserEntity from "../domain/entities/user.entity";
 import { Transaction } from "typeorm";
 import { CreateUserSchema } from "../domain/schemas/create-user.schema";
+import { LoginUseCase } from "../application/use-case/user/login-use-case";
+import { LoginSchema } from "../domain/schemas/login-schema";
 
 @JsonController('/user')
 @injectable()
@@ -16,6 +18,8 @@ export class  UserController {
     constructor(
         private readonly listUsersUseCase: ListUsersUseCase,
         private readonly createUserUseCase: CreateUserUseCase,
+        private readonly loginUseCase: LoginUseCase,
+
     ) { }
 
     @OpenAPI({
@@ -23,18 +27,27 @@ export class  UserController {
         description: 'This route list users by user company_id '
     })
     @Get('/list')
-    list(@StrictQueryParams() pagination: PaginationSchema) {
+    @Authorized()
+    list(@StrictQueryParams() pagination: PaginationSchema, @CurrentUser() user: UserEntity) {
         return this.listUsersUseCase.execute({ pagination })
     }
 
     @OpenAPI({
-        summary: 'List Users',
+        summary: 'Create Users',
         description: 'This route list users by user company_id'
     })
     @Post('/create/:companyId')
     create(@Param('companyId') companyId: string, @StrictBody() body: CreateUserSchema, trx: Transaction) {
         const data = {...body, companyId} as UserEntity
-        console.log({ data })
         return this.createUserUseCase.execute({ data, trx })
+    }
+
+    @OpenAPI({
+        summary: 'Login',
+        description: 'Login route'
+    })
+    @Post('/login')
+    login(@StrictBody() data: LoginSchema) {
+        return this.loginUseCase.execute({ data })
     }
 }
