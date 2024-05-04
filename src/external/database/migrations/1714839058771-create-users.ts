@@ -1,32 +1,40 @@
-import { Table, MigrationInterface, QueryRunner } from "typeorm"
+import { Table, MigrationInterface, QueryRunner, TableForeignKey } from "typeorm"
 
 export default class User1714839058771 implements MigrationInterface {
-    table = 'users'
+    private table = new Table({
+        name:  'users',
+        columns: [
+            {
+                name: 'id',
+                type: 'uuid',
+                isPrimary: true,
+                generationStrategy: 'uuid',
+            },
+            {
+                name: 'company_id',
+                type: 'uuid',
+                isNullable: false,
+            },
+            {
+                name: 'name',
+                type: 'varchar',
+                isNullable: false,
+            },
+        ],
+    })
+
+    private foreignKeys = [
+        new TableForeignKey({
+          columnNames: ['company_id'],
+          referencedTableName: 'companies',
+          referencedColumnNames: ['id'],
+          onUpdate: 'CASCADE',
+        })
+      ]
 
     async up(queryRunner: QueryRunner): Promise <void> {
-        await queryRunner.createTable(
-            new Table({
-                name: this.table,
-                columns: [
-                    {
-                        name: 'id',
-                        type: 'varchar',
-                        isPrimary: true,
-                        generationStrategy: 'uuid',
-                    },
-                    {
-                        name: 'company_id',
-                        type: 'varchar',
-                        isNullable: false,
-                    },
-                    {
-                        name: 'name',
-                        type: 'varchar',
-                        isNullable: false,
-                    },
-                ],
-            }),
-        );
+        await queryRunner.createTable(this.table)
+        await queryRunner.createForeignKeys(this.table, this.foreignKeys)
     }
 
     async down(queryRunner: QueryRunner): Promise <void> {

@@ -1,27 +1,36 @@
-import { Table, MigrationInterface, QueryRunner } from "typeorm"
+import { Table, MigrationInterface, QueryRunner, TableForeignKey } from "typeorm"
 
 export default class countMessage1714839406888 implements MigrationInterface {
-    table = 'count_messages'
+    table = new Table({
+        name: 'count_messages' ,
+        columns: [
+            {
+                name: 'id',
+                type: 'uuid',
+                isPrimary: true,
+                isGenerated: true,
+                generationStrategy: 'uuid'
+            },
+            {
+                name: 'company_id',
+                type: 'uuid',
+                isNullable: false,
+            },
+        ],
+    })
+
+    private foreignKeys = [
+        new TableForeignKey({
+          columnNames: ['company_id'],
+          referencedTableName: 'companies',
+          referencedColumnNames: ['id'],
+          onUpdate: 'CASCADE',
+        }),
+      ]
 
     async up(queryRunner: QueryRunner): Promise <void> {
-        await queryRunner.createTable(
-            new Table({
-                name: this.table,
-                columns: [
-                    {
-                        name: 'id',
-                        type: 'varchar',
-                        isPrimary: true,
-                        generationStrategy: 'uuid',
-                    },
-                    {
-                        name: 'company_id',
-                        type: 'varchar',
-                        isNullable: false,
-                    },
-                ],
-            }),
-        );
+        await queryRunner.createTable(this.table)
+        await queryRunner.createForeignKeys(this.table, this.foreignKeys)
     }
 
     async down(queryRunner: QueryRunner): Promise <void> {
