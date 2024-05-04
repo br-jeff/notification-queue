@@ -10,5 +10,5 @@ export default class MessageEntity extends BaseEntity {
     content: string
 
     @Column()
-    company_id: string
+    companyId: string
 }

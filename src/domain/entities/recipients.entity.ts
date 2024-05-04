@@ -7,11 +7,11 @@ export default class MessageEntity extends BaseEntity {
     id: string
 
     @Column()
-    message_id: string
+    messageId: string
 
     @Column()
-    user_id: string
+    userId: string
 
     @Column("boolean")
-    is_open: boolean
+    isOpen: boolean
 }

@@ -10,5 +10,5 @@ export default class PlanEntity extends BaseEntity{
     name: string
 
     @Column()
-    message_per_month: number
+    messagePerMonth: number
 }

@@ -7,5 +7,5 @@ export default class CountMessageEntity extends BaseEntity{
     id: string
 
     @Column()
-    company_id: string
+    companyId: string
 }
