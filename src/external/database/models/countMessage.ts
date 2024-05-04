@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Generated, Column } from "typeorm"
 
 @Entity()
-export class CountMessage {
+export default class CountMessage {
     @PrimaryGeneratedColumn('uuid')
     @Generated('uuid') 
     id: string

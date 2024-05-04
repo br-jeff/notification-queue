@@ -43,7 +43,7 @@ export default {
       if (!process.env.DATABASE_DRIVER) {
         throw new Error("Env DATABASE_DRIVER not found");
       }
-      return process.env.DATABASE_DRIVER as "postgres" | "sqlite3";
+      return process.env.DATABASE_DRIVER as "postgres" | "sqlite";
     }
   },
   get LOG_LEVEL(): string {

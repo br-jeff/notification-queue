@@ -7,13 +7,14 @@ import { setupControllers } from './controllers';
 import { setupSwagger } from './swagger';
 import { logger } from '../utils/logger';
 import settings from '../config/settings';
+import startupDB from '../database/startup-db';
 
 const app = express()
 setupControllers(app)
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 useContainer(new TsyringeAdapter(container))
-
+startupDB()
 setupSwagger(app)
 
 app.on('error', (error) => logger.error({ error }))
