@@ -10,6 +10,6 @@ export = new DataSource({
     username: settings.database.USER,
     password:  settings.database.PASSWORD,
     database: settings.database.DB_NAME,
-    entities: getInstancesFromDirectory(join(__dirname, './models')),
+    entities: getInstancesFromDirectory(join(__dirname, '../../domain/entities')),
     migrations: getInstancesFromDirectory(join(__dirname, './migrations'))
 })
