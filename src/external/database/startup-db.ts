@@ -39,6 +39,7 @@ async function runSeeds() {
     name: 'Admin Company A',
     username: 'CompanyA',
     companyId: '39f2d121-46b6-46a6-af12-ff614fce57a4',
-    password: await container.resolve(EncryptionProvider).createHash('123')
+    password: await container.resolve(EncryptionProvider).createHash('123'),
+    isAdmin: true,
   })
 }

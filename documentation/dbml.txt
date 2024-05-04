@@ -22,11 +22,12 @@ Table plans {
     name varchar
     username varchar
     password varchar
+    is_admin: boolean
     created_at timestamp
   }
   
   Table count_messages {
-    id string //
+    id string
     company_id uuid [primary key]
     date date
   }

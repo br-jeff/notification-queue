@@ -9,11 +9,14 @@ components:
           type: string
         username:
           type: string
+        isAdmin:
+          type: boolean
       type: object
       required:
         - id
         - name
         - username
+        - isAdmin
     CreateUserSchema:
       properties:
         name:

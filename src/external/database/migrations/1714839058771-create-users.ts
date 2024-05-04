@@ -26,6 +26,11 @@ export default class User1714839058771 implements MigrationInterface {
                 isNullable: false,
             },
             {
+                name: 'is_admin',
+                type: 'boolean',
+                default: false,
+            },
+            {
                 name: 'password',
                 type: 'varchar',
                 isNullable: false,
