@@ -7,7 +7,7 @@ import { BadRequestError } from 'routing-controllers';
 
 @injectable()
 export class MessageRepository {
-    async list({ filters, pagination }: DefaultListUseCaseType<MessageEntity>) {
+    async list({ filters, pagination }: DefaultListUseCaseType<Partial<MessageEntity>>) {
         const skip = pagination.page * pagination.size;
         const take = pagination.size;
         const [data, total] = await MessageEntity.findAndCount({
