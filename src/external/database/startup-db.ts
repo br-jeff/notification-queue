@@ -18,6 +18,7 @@ export default async function startupDB() {
       // if not have plans run migrations
       logger.info('Starting running migrations')
       await connection.runMigrations();
+      logger.info('Migraitons Created')
       await runSeeds()
     }  
   }
@@ -58,4 +59,5 @@ async function runSeeds() {
     })
   }
   await UserEntity.save(users)
+  logger.info('Seeds created')
 }
