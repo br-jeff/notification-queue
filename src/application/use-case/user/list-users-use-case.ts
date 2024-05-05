@@ -6,7 +6,7 @@ import { UserRepository } from "../../../external/database/repository/user.repos
 export class ListUsersUseCase {
     constructor(private readonly userRepository: UserRepository) { }
 
-    execute({ filters, pagination, trx }: DefaultListUseCaseType<any>) {
-        return this.userRepository.list({ filters, pagination, trx })
+    execute({ filters, pagination }: DefaultListUseCaseType<any>) {
+        return this.userRepository.list({ filters, pagination})
     }
 }

@@ -13,7 +13,7 @@ export class CreateUserUseCase {
         private readonly userRepository: UserRepository,
         private readonly encryptionProvider: EncryptionProvider) { }
 
-    async execute({ data, trx }: DefaultCreateUseCaseType<UserEntity>) {
+    async execute({ data }: DefaultCreateUseCaseType<UserEntity>) {
         const { username, name, companyId, password } = data
 
         const hasUser = await this.userRepository.getUserNameByCompanyId({
@@ -35,6 +35,6 @@ export class CreateUserUseCase {
 
         }
 
-         return this.userRepository.createUser({ data: user, trx })
+         return this.userRepository.createUser({ data: user})
     }
 }

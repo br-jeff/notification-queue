@@ -6,7 +6,7 @@ import { MessageRepository } from "../../../external/database/repository/message
 export class LisMessageUseCase {
     constructor(private readonly messageRepository: MessageRepository) { }
 
-    execute({ filters, pagination, trx }: DefaultListUseCaseType<any>) {
-        return this.messageRepository.list({ filters, pagination, trx })
+    execute({ filters, pagination }: DefaultListUseCaseType<any>) {
+        return this.messageRepository.list({ filters, pagination })
     }
 }

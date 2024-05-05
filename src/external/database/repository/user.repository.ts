@@ -8,7 +8,7 @@ import { BadRequestError } from 'routing-controllers';
 
 @injectable()
 export class UserRepository {
-    async list({ filters, pagination, trx }: DefaultListUseCaseType<UserEntity>) {
+    async list({ filters, pagination }: DefaultListUseCaseType<UserEntity>) {
         const skip = pagination.page * pagination.size;
         const take = pagination.size;
         const [data, total] = await UserEntity.findAndCount({
@@ -18,12 +18,12 @@ export class UserRepository {
         return { data, total}
     }
 
-    createUser({ data, trx }: DefaultCreateUseCaseType<UserEntity>) {
+    createUser({ data }: DefaultCreateUseCaseType<UserEntity>) {
         if (!data) return;
         return UserEntity.save({ ...data, id: uuidV4() } as UserEntity);
     }
 
-    findById({ filters, trx }: DefaultFilterUseCaseType<{ id: string; }>) {
+    findById({ filters }: DefaultFilterUseCaseType<{ id: string; }>) {
         if (!filters || !filters.id) {
             throw new BadRequestError('id is not defined');
         }
@@ -32,7 +32,7 @@ export class UserRepository {
         });
     }
 
-    getUserNameByCompanyId({ filters, trx }: DefaultFilterUseCaseType<{ companyId: string; username: string; }>) {
+    getUserNameByCompanyId({ filters }: DefaultFilterUseCaseType<{ companyId: string; username: string; }>) {
         return UserEntity.findOne({
             where: {
                 companyId: filters?.companyId,
@@ -41,7 +41,7 @@ export class UserRepository {
         });
     }
 
-    getUserByName({ filters, trx }: DefaultFilterUseCaseType<{ username: string; }>) {
+    getUserByName({ filters }: DefaultFilterUseCaseType<{ username: string; }>) {
         return UserEntity.findOne({
             where: {
                 username: filters?.username
