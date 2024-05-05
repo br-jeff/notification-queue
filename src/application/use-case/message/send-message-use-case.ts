@@ -1,7 +1,5 @@
 import { injectable } from "tsyringe";
-import { CreateUseCaseWithUserType, DefaultCreateUseCaseType } from "../../types/default-use-case";
-import { MessageRepository } from "../../../external/database/repository/message.repository";
-import { BadRequestError } from "routing-controllers";
+import { CreateUseCaseWithUserType } from "../../types/default-use-case";
 import datasource from "../../../external/database/datasource";
 import MessageEntity from "../../../domain/entities/message.entity";
 import { v4 as uuidV4 } from 'uuid';
@@ -9,33 +7,35 @@ import CountMessageEntity from "../../../domain/entities/count-message.entity";
 import moment from "moment";
 import UserEntity from "../../../domain/entities/user.entity";
 import { Repository } from "typeorm";
+import { SendMessageSchema } from "../../../domain/schemas/send-message.schema";
 
 @injectable()
 export class SendMessageUseCase {
-    constructor(private readonly messageRepository: MessageRepository) { }
+    constructor() { }
 
-    async execute({ data, user }: CreateUseCaseWithUserType<any>) {
+    async execute({ data, user }: CreateUseCaseWithUserType<SendMessageSchema>) {
         const queryRunner = datasource.createQueryRunner()
-
         try {
-       
+            console.log({ data })
+
             queryRunner.startTransaction()
             const messageEntity = queryRunner.manager.getRepository(MessageEntity) 
             const countMessageEntity = queryRunner.manager.getRepository(CountMessageEntity) 
     
-        
             const countMessage = await this.countMessage(countMessageEntity, user)
 
-          
-            const message = {
+            await messageEntity.save({
                 id: uuidV4(),
                 companyId: user.companyId,
-                content: 'TEXT'
-            }
-      
-          
+                content: data.content
+            })
 
+
+
+
+            //TODO: Incriment countMessage
             await queryRunner.commitTransaction()
+            
             return countMessage
         } catch (err) {
             await queryRunner.rollbackTransaction()
@@ -46,10 +46,11 @@ export class SendMessageUseCase {
 
     async countMessage(countMessageEntity: Repository<CountMessageEntity>, user: UserEntity) {
         const startMonth = moment().startOf('month')
-        const findCurrentMonth = countMessageEntity.findOne({ where: { companyId: user.companyId, date: startMonth.toDate() } })
+        const findCurrentMonth = countMessageEntity.findOne({ where: { companyId: user.companyId, dateCount: startMonth.toDate() } })
         if(findCurrentMonth) {
             return findCurrentMonth
         }
-        return countMessageEntity.save({ id: uuidV4(), companyId: user.companyId, date: startMonth.toDate() })
+        console.log('NÂO TEM')
+        return countMessageEntity.save({ id: uuidV4(), companyId: user.companyId, dateCount: startMonth.toDate() })
     }
 }

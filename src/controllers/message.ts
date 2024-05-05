@@ -5,9 +5,10 @@ import { injectable } from 'tsyringe'
 import { PaginationSchema } from "../domain/schemas";
 import UserEntity from "../domain/entities/user.entity";
 import { ValidatePermissionProvider } from "../domain/providers/validate-permission-provider";
-import { StrictQueryParams } from "../external/web/validator";
+import { StrictBody, StrictQueryParams } from "../external/web/validator";
 import { LisMessageUseCase } from "../application/use-case/message/list-message-use-case";
 import { SendMessageUseCase } from "../application/use-case/message/send-message-use-case";
+import { SendMessageSchema } from "../domain/schemas/send-message.schema";
 
 @JsonController('/message')
 @injectable()
@@ -32,7 +33,8 @@ export class  UserController {
 
     @Post('/send')
     @Authorized()
-    async send(@CurrentUser() user: UserEntity) {
-     return this.sendMessageUseCase.execute({ data: { companyId: user.companyId }, user })
+    async send(@CurrentUser() user: UserEntity, @StrictBody() body: SendMessageSchema) {
+     this.validatePermissionProvider.isAdmin(user)
+     return this.sendMessageUseCase.execute({ data: body, user })
     }
 }

@@ -11,7 +11,7 @@ export default class CountMessageEntity extends BaseEntity{
     companyId: string
 
     @Column()
-    date: Date
+    dateCount: Date
 
     @Column()
     countMessage: number
