@@ -112,6 +112,17 @@ paths:
       tags:
         - User
       description: "This route list users by user company_id "
+  /message/send:
+    post:
+      operationId: UserController.send
+      responses:
+        "200":
+          content:
+            application/json: {}
+          description: Successful response
+      summary: Send
+      tags:
+        - User
   /user/list:
     get:
       operationId: UserController.list

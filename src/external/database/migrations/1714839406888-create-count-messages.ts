@@ -16,6 +16,16 @@ export default class countMessage1714839406888 implements MigrationInterface {
                 type: 'uuid',
                 isNullable: false,
             },
+            {
+                name: 'date_count',
+                type: 'date',
+                isNullable: false,
+            },
+            {
+                name: 'count_message',
+                type: 'integer',
+            },
+              
         ],
     })
 

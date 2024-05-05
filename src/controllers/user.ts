@@ -43,9 +43,9 @@ export class  UserController {
     })
     @Post('/create/:companyId')
     @Serializer(UserSerializer)
-    create(@Param('companyId') companyId: string, @StrictBody() body: CreateUserSchema, trx: Transaction) {
+    create(@Param('companyId') companyId: string, @StrictBody() body: CreateUserSchema) {
         const data = {...body, companyId} as UserEntity
-        return this.createUserUseCase.execute({ data, trx })
+        return this.createUserUseCase.execute({ data })
     }
 
     @OpenAPI({

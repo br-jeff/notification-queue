@@ -13,8 +13,8 @@ export default class MessageEntity extends BaseEntity {
     @Column()
     companyId: string
 
-    @ManyToMany(() => CompanyEntity, (companyEntity : CompanyEntity) => companyEntity.messages)
+ /*    @ManyToMany(() => CompanyEntity, (companyEntity : CompanyEntity) => companyEntity.messages)
     @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
-    companies?: Relation<CompanyEntity>  
+    companies?: Relation<CompanyEntity>   */
     
 }

@@ -10,6 +10,12 @@ export default class CountMessageEntity extends BaseEntity{
     @Column()
     companyId: string
 
+    @Column()
+    date: Date
+
+    @Column()
+    countMessage: number
+
     @ManyToMany(() => CompanyEntity, (companyEntity: CompanyEntity) => companyEntity.countMessages)
     @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
     company?: Relation<CompanyEntity>[]

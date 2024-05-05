@@ -29,7 +29,8 @@ Table plans {
   Table count_messages {
     id string [primary key]
     company_id uuid 
-    date date
+    count_message integer
+    date_count date
   }
   
   Table messages {

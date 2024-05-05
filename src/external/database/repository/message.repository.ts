@@ -7,7 +7,7 @@ import { BadRequestError } from 'routing-controllers';
 
 @injectable()
 export class MessageRepository {
-    async list({ filters, pagination, trx }: DefaultListUseCaseType<MessageEntity>) {
+    async list({ filters, pagination }: DefaultListUseCaseType<MessageEntity>) {
         const skip = pagination.page * pagination.size;
         const take = pagination.size;
         const [data, total] = await MessageEntity.findAndCount({
@@ -17,12 +17,12 @@ export class MessageRepository {
         return { data, total}
     }
 
-    createMessage({ data, trx }: DefaultCreateUseCaseType<MessageEntity>) {
+    createMessage({ data }: DefaultCreateUseCaseType<MessageEntity>) {
         if (!data) return;
         return MessageEntity.save({ ...data, id: uuidV4() } as MessageEntity);
     }
 
-    findById({ filters, trx }: DefaultFilterUseCaseType<{ id: string; }>) {
+    findById({ filters }: DefaultFilterUseCaseType<{ id: string; }>) {
         if (!filters || !filters.id) {
             throw new BadRequestError('id is not defined');
         }

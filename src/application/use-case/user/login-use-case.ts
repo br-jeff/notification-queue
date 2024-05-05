@@ -18,7 +18,7 @@ export class LoginUseCase {
     private readonly tokenProvider: JWTProvider
   ) { }
 
-  async execute({ data}: GenericUseCaseType<Data>) {
+  async execute({ data }: GenericUseCaseType<Data>) {
     try {
       const user = await this.userRepository.getUserByName({ filters: { username: data.username } })
 
