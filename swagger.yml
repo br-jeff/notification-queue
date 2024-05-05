@@ -1,5 +1,18 @@
 components:
   schemas:
+    ListUserSerialize:
+      properties:
+        data:
+          $ref: "#/components/schemas/UserSerializer"
+          items: {}
+          minItems: 1
+          type: array
+        count:
+          type: number
+      type: object
+      required:
+        - data
+        - count
     UserSerializer:
       properties:
         id:
@@ -95,9 +108,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: "#/components/schemas/UserSerializer"
-                type: array
+                $ref: "#/components/schemas/ListUserSerialize"
           description: ""
       summary: List Users
       tags:

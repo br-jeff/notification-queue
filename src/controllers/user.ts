@@ -13,6 +13,7 @@ import { LoginUseCase } from "../application/use-case/user/login-use-case";
 import { LoginSchema } from "../domain/schemas/login-schema";
 import { ValidatePermissionProvider } from "../domain/providers/validate-permission-provider";
 import { UserSerializer } from "../domain/serializers/user-serializer";
+import { ListUserSerialize } from "../domain/serializers/user-list-serilizaer";
 
 @JsonController('/user')
 @injectable()
@@ -31,7 +32,7 @@ export class  UserController {
     })
     @Get('/list')
     @Authorized()
-    @ArraySerializer(UserSerializer)
+    @Serializer(ListUserSerialize)
     list(@StrictQueryParams() pagination: PaginationSchema, @CurrentUser() user: UserEntity) {
         return this.listUsersUseCase.execute({ filters: { companyId: user.companyId }, pagination })
     }
