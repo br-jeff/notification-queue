@@ -7,12 +7,12 @@ components:
           items: {}
           minItems: 1
           type: array
-        count:
+        total:
           type: number
       type: object
       required:
         - data
-        - count
+        - total
     UserSerializer:
       properties:
         id:

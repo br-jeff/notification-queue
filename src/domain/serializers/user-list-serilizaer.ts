@@ -14,7 +14,7 @@ export class ListUserSerialize {
 
     @Expose()
     @IsNumber()
-    count: number
+    total: number
 }
 
 

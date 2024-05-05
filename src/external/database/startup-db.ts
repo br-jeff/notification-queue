@@ -7,6 +7,7 @@ import settings from "../config/settings";
 import { logger } from "../utils/logger";
 import datasource from "./datasource";
 import { EncryptionProvider } from "../../domain/providers/encryption-provider";
+import { v4 as uuidV4 } from 'uuid';
 
 export default async function startupDB() {
   const connection = await datasource.initialize()
@@ -34,21 +35,27 @@ async function runSeeds() {
     name: 'Company A'
   })
 
-  await UserEntity.save([{
-    id: 'afcb2377-cc31-4d92-b81b-c0e9322ceeaa',
-    name: 'Admin Company A',
-    username: 'adminCompanyA',
-    companyId: '39f2d121-46b6-46a6-af12-ff614fce57a4',
-    password: await container.resolve(EncryptionProvider).createHash('123'),
-    isAdmin: true,
-  },
-  {
-    id: 'b37bbdac-efa2-4027-9db3-719864c82203',
-    name: 'User Company A',
-    username: 'UserCompanyA',
-    companyId: '39f2d121-46b6-46a6-af12-ff614fce57a4',
-    password: await container.resolve(EncryptionProvider).createHash('123'),
-    isAdmin: false,
+
+  const users = [
+    {
+      id: 'afcb2377-cc31-4d92-b81b-c0e9322ceeaa',
+      name: 'Admin Company A',
+      username: 'adminCompanyA',
+      companyId: '39f2d121-46b6-46a6-af12-ff614fce57a4',
+      password: await container.resolve(EncryptionProvider).createHash('123'),
+      isAdmin: true,
+    }
+  ]
+  
+  for(let i = 1; i < 100; i++ ) {
+    users.push({
+      id: uuidV4(),
+      name: `company A ${i}`,
+      username: `companyA${i}`,
+      companyId: '39f2d121-46b6-46a6-af12-ff614fce57a4',
+      password: await container.resolve(EncryptionProvider).createHash('123'),
+      isAdmin: false,
+    })
   }
-])
+  await UserEntity.save(users)
 }
