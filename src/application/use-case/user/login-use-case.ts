@@ -23,11 +23,11 @@ export class LoginUseCase {
       const user = await this.userRepository.getUserByName({ filters: { username: data.username } })
 
       if(!user) {
-        throw new BadRequestError('user not found')
+        throw new BadRequestError('User not found')
       }
 
       const validation = await this.encryptionProvider.verify(data.password, user.password)
-      if (!validation) throw new Error()
+      if (!validation) throw new UnauthorizedError()
 
       return {
         acessToken: this.tokenProvider.createAcessToken({
