@@ -44,7 +44,7 @@ export async function setupSwagger(
             },
         },
         info: {
-            title: 'ECCOMERCE API',
+            title: 'NOTIFICATION API',
             description: 'This project is a queue message',
             version: '1.0.0',
         },

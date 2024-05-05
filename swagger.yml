@@ -65,12 +65,23 @@ components:
       required:
         - page
         - size
+    SendMessageSchema:
+      properties:
+        content:
+          type: string
+        users:
+          items: {}
+          type: array
+      type: object
+      required:
+        - content
+        - users
   securitySchemes:
     bearerAuth:
       scheme: bearer
       type: http
 info:
-  title: ECCOMERCE API
+  title: NOTIFICATION API
   version: 1.0.0
   description: This project is a queue message
 openapi: 3.0.0
@@ -115,6 +126,13 @@ paths:
   /message/send:
     post:
       operationId: UserController.send
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendMessageSchema"
+        description: SendMessageSchema
+        required: false
       responses:
         "200":
           content:

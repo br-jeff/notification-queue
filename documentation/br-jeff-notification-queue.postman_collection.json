@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "5bcd3d8d-0b67-4d14-b8c1-5926cd91f818",
+		"name": "br-jeff-notification-queue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27941686"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Company B\",\n    \"username\": \"companyAB2D\",\n    \"password\": \"1234das\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/user/create/39f2d121-46b6-46a6-af12-ff614fce57a4"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"adminCompanyA\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/user/login"
+					},
+					"response": []
+				},
+				{
+					"name": "list - (auto login CompanyA)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"if (!pm.variables.get(\"exernal_api_url\")) {",
+									"    console.error(\"A variável de ambiente 'external_api_url' não está definida.\");",
+									"}",
+									"",
+									"var requestConfig = {",
+									"    method: 'POST',",
+									"    url: 'http://localhost:8080/user/login',",
+									"    headers: {",
+									"        'Content-Type': 'application/json'",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            username: 'adminCompanyA',",
+									"            password: '123'",
+									"        }),",
+									"        options: {",
+									"            raw: {",
+									"                language: 'json'",
+									"            }",
+									"     }",
+									"    }",
+									"};",
+									"",
+									"pm.sendRequest(requestConfig, function (error, response) {",
+									"    if (response && response.code === 200) {",
+									"        var responseData = response.json();",
+									"        var token = responseData.acessToken;",
+									"        pm.variables.set(\"automation_token\", `Basic ${token}`)",
+									"",
+									"         pm.request.headers.upsert({",
+									"            key: 'Authorization',",
+									"            value: `Barear ${token}`",
+									"           //  value: `Basic ${Buffer.from(token, 'base64').toString('ascii')}`",
+									"        });",
+									"",
+									"        console.log('Token obtido com sucesso:', pm.variables.get(\"automation_token\"),   pm.request.headers);",
+									"    } else {",
+									"        console.error('Falha ao obter o token. Código de resposta:', response ? response.code : 'Resposta nula ou indefinida');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/user/list"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "message",
+			"item": [
+				{
+					"name": "send message - autologin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"if (!pm.variables.get(\"exernal_api_url\")) {",
+									"    console.error(\"A variável de ambiente 'external_api_url' não está definida.\");",
+									"}",
+									"",
+									"var requestConfig = {",
+									"    method: 'POST',",
+									"    url: 'http://localhost:8080/user/login',",
+									"    headers: {",
+									"        'Content-Type': 'application/json'",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            username: 'adminCompanyA',",
+									"            password: '123'",
+									"        }),",
+									"        options: {",
+									"            raw: {",
+									"                language: 'json'",
+									"            }",
+									"     }",
+									"    }",
+									"};",
+									"",
+									"pm.sendRequest(requestConfig, function (error, response) {",
+									"    if (response && response.code === 200) {",
+									"        var responseData = response.json();",
+									"        var token = responseData.acessToken;",
+									"        pm.variables.set(\"automation_token\", `Basic ${token}`)",
+									"",
+									"         pm.request.headers.upsert({",
+									"            key: 'Authorization',",
+									"            value: `Barear ${token}`",
+									"           //  value: `Basic ${Buffer.from(token, 'base64').toString('ascii')}`",
+									"        });",
+									"",
+									"        console.log('Token obtido com sucesso:', pm.variables.get(\"automation_token\"),   pm.request.headers);",
+									"    } else {",
+									"        console.error('Falha ao obter o token. Código de resposta:', response ? response.code : 'Resposta nula ou indefinida');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"This is message string you can write anything\",\n    \"users\": [\n        \"afcb2377-cc31-4d92-b81b-c0e9322ceeaa\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/message/send"
+					},
+					"response": []
+				},
+				{
+					"name": "list - (auto login CompanyA) Copy 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"if (!pm.variables.get(\"exernal_api_url\")) {",
+									"    console.error(\"A variável de ambiente 'external_api_url' não está definida.\");",
+									"}",
+									"",
+									"var requestConfig = {",
+									"    method: 'POST',",
+									"    url: 'http://localhost:8080/user/login',",
+									"    headers: {",
+									"        'Content-Type': 'application/json'",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            username: 'adminCompanyA',",
+									"            password: '123'",
+									"        }),",
+									"        options: {",
+									"            raw: {",
+									"                language: 'json'",
+									"            }",
+									"     }",
+									"    }",
+									"};",
+									"",
+									"pm.sendRequest(requestConfig, function (error, response) {",
+									"    if (response && response.code === 200) {",
+									"        var responseData = response.json();",
+									"        var token = responseData.acessToken;",
+									"        pm.variables.set(\"automation_token\", `Basic ${token}`)",
+									"",
+									"         pm.request.headers.upsert({",
+									"            key: 'Authorization',",
+									"            value: `Barear ${token}`",
+									"           //  value: `Basic ${Buffer.from(token, 'base64').toString('ascii')}`",
+									"        });",
+									"",
+									"        console.log('Token obtido com sucesso:', pm.variables.get(\"automation_token\"),   pm.request.headers);",
+									"    } else {",
+									"        console.error('Falha ao obter o token. Código de resposta:', response ? response.code : 'Resposta nula ou indefinida');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/message/list"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "health",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"teste  name\",\n    \"price\": 123\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/health"
+			},
+			"response": []
+		}
+	]
+}
