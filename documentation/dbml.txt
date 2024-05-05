@@ -22,7 +22,7 @@ Table plans {
     name varchar
     username varchar
     password varchar
-    is_admin: boolean
+    is_admin boolean
     created_at timestamp
   }
   
