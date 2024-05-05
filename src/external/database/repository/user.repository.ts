@@ -27,7 +27,7 @@ export class UserRepository {
         if (!filters || !filters.id) {
             throw new BadRequestError('id is not defined');
         }
-        return UserEntity.find({
+        return UserEntity.findOne({
             where: { id: filters.id }
         });
     }
