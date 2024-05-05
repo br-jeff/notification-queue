@@ -8,7 +8,7 @@ import { BadRequestError } from 'routing-controllers';
 
 @injectable()
 export class UserRepository {
-    async list({ filters, pagination }: DefaultListUseCaseType<UserEntity>) {
+    async list({ filters, pagination }: DefaultListUseCaseType<Partial<UserEntity>>) {
         const skip = pagination.page * pagination.size;
         const take = pagination.size;
         const [data, total] = await UserEntity.findAndCount({
