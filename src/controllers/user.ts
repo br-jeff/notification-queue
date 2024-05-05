@@ -7,7 +7,6 @@ import { ListUsersUseCase } from "../application/use-case/user/list-users-use-ca
 import { PaginationSchema } from "../domain/schemas";
 import { CreateUserUseCase } from "../application/use-case/user/create-user-use-case";
 import UserEntity from "../domain/entities/user.entity";
-import { Transaction } from "typeorm";
 import { CreateUserSchema } from "../domain/schemas/create-user.schema";
 import { LoginUseCase } from "../application/use-case/user/login-use-case";
 import { LoginSchema } from "../domain/schemas/login-schema";
@@ -23,7 +22,6 @@ export class  UserController {
         private readonly listUsersUseCase: ListUsersUseCase,
         private readonly createUserUseCase: CreateUserUseCase,
         private readonly loginUseCase: LoginUseCase,
-        private readonly validatePermissionProvider : ValidatePermissionProvider
     ) { }
 
     @OpenAPI({
