@@ -45,7 +45,7 @@ export default class User1714839058771 implements MigrationInterface {
           referencedColumnNames: ['id'],
           onUpdate: 'CASCADE',
         })
-      ]
+    ]
 
     async up(queryRunner: QueryRunner): Promise <void> {
         await queryRunner.createTable(this.table)

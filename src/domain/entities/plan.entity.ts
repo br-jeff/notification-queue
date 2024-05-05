@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Generated, Column, BaseEntity } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Generated, Column, BaseEntity, OneToOne, JoinColumn, Relation } from "typeorm"
+import { CompanyEntity } from "./company.entity"
 
 @Entity('plans')
 export default class PlanEntity extends BaseEntity{
@@ -11,4 +12,8 @@ export default class PlanEntity extends BaseEntity{
 
     @Column()
     messagePerMonth: number
+
+    @OneToOne(() => CompanyEntity, (companyEntity: CompanyEntity) => companyEntity.plan)
+    @JoinColumn({ name: 'id', referencedColumnName: 'planId' })
+    company?: Relation<CompanyEntity>
 }

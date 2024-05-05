@@ -21,22 +21,11 @@ export default class Company1714838274291 implements MigrationInterface {
                 type: 'varchar',
                 isNullable: false,
             },
-            
         ],
     })
 
-    private foreignKeys = [
-        new TableForeignKey({
-          columnNames: ['plan_id'],
-          referencedTableName: 'plans',
-          referencedColumnNames: ['id'],
-          onUpdate: 'CASCADE',
-        }),
-    ]
-
     async up(queryRunner: QueryRunner): Promise <void> {
         await queryRunner.createTable(this.table);
-        await queryRunner.createForeignKeys(this.table, this.foreignKeys) 
     }
 
     async down(queryRunner: QueryRunner): Promise <void> {

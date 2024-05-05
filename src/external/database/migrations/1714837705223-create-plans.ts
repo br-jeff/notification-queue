@@ -24,9 +24,10 @@ export default class Plan1714837705223 implements MigrationInterface {
             },
         ],
     })
-      
+
     async up(queryRunner: QueryRunner): Promise <void> {
         await queryRunner.createTable(this.table);
+
     }
 
     async down(queryRunner: QueryRunner): Promise <void> {

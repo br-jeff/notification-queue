@@ -1,5 +1,5 @@
 import { container } from "tsyringe";
-import { CompanyEntity } from "../../domain/entities/company";
+import { CompanyEntity } from "../../domain/entities/company.entity";
 import PlanEntity from "../../domain/entities/plan.entity";
 import UserEntity from "../../domain/entities/user.entity";
 import { NodeEnvEnum } from "../../domain/enums/node-env";
@@ -34,12 +34,21 @@ async function runSeeds() {
     name: 'Company A'
   })
 
-  await UserEntity.save({
+  await UserEntity.save([{
     id: 'afcb2377-cc31-4d92-b81b-c0e9322ceeaa',
     name: 'Admin Company A',
-    username: 'CompanyA',
+    username: 'adminCompanyA',
     companyId: '39f2d121-46b6-46a6-af12-ff614fce57a4',
     password: await container.resolve(EncryptionProvider).createHash('123'),
     isAdmin: true,
-  })
+  },
+  {
+    id: 'b37bbdac-efa2-4027-9db3-719864c82203',
+    name: 'User Company A',
+    username: 'UserCompanyA',
+    companyId: '39f2d121-46b6-46a6-af12-ff614fce57a4',
+    password: await container.resolve(EncryptionProvider).createHash('123'),
+    isAdmin: false,
+  }
+])
 }

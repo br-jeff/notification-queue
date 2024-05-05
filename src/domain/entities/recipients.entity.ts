@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Generated, Column, BaseEntity } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Generated, Column, BaseEntity, OneToOne, JoinColumn, Relation, ManyToMany } from "typeorm"
+import UserEntity from "./user.entity"
 
-@Entity('messages')
-export default class MessageEntity extends BaseEntity {
+@Entity('recipients')
+export default class RecipientsEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     @Generated('uuid') 
     id: string
@@ -14,4 +15,9 @@ export default class MessageEntity extends BaseEntity {
 
     @Column("boolean")
     isOpen: boolean
+
+    @ManyToMany(() => UserEntity, (userEntity: UserEntity) => userEntity.recipients)
+    @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+    users?: Relation<UserEntity>
+
 }
