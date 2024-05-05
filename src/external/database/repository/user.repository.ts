@@ -11,10 +11,11 @@ export class UserRepository {
     async list({ filters, pagination, trx }: DefaultListUseCaseType<UserEntity>) {
         const skip = pagination.page;
         const take = pagination.size;
-        return UserEntity.findAndCount({
+        const [data, count] = await UserEntity.findAndCount({
             skip,
             take
         });
+        return { data, count}
     }
 
     createUser({ data, trx }: DefaultCreateUseCaseType<UserEntity>) {

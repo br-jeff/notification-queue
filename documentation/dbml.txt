@@ -10,7 +10,7 @@ Table plans {
   
   Table companies {
     id uuid [primary key]
-    plan_id varchar
+    plan_id uuid
     name varchar
     created_at timestamp
   }
@@ -27,8 +27,8 @@ Table plans {
   }
   
   Table count_messages {
-    id string
-    company_id uuid [primary key]
+    id string [primary key]
+    company_id uuid 
     date date
   }
   
@@ -41,7 +41,7 @@ Table plans {
   
   Table recipients {
     id uuid [primary key]
-    messages_id text
+    messages_id uuid
     user_id uuid 
     is_open boolean
     created_at timestamp
