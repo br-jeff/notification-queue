@@ -9,4 +9,10 @@ export class ValidatePermissionProvider {
         }
     }
 
+    isAdmin(user: UserEntity) {
+        if(user.isAdmin !== true) {
+            throw new ForbiddenError("User is not admin")
+        }
+    }
+
 }

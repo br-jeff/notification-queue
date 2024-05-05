@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Generated, Column, BaseEntity, Relation, ManyToMany, JoinColumn } from "typeorm"
 import { CompanyEntity } from "./company.entity"
 
-@Entity('message')
+@Entity('messages')
 export default class MessageEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     @Generated('uuid') 
@@ -15,6 +15,6 @@ export default class MessageEntity extends BaseEntity {
 
     @ManyToMany(() => CompanyEntity, (companyEntity : CompanyEntity) => companyEntity.messages)
     @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
-    companies?: Relation<CompanyEntity>    
+    companies?: Relation<CompanyEntity>  
     
 }

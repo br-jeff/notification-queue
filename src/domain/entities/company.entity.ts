@@ -23,7 +23,7 @@ export class CompanyEntity extends BaseEntity {
     @ManyToMany(() => MessageEntity, messageEntity => messageEntity.companies)
     @JoinColumn({ name: 'id', referencedColumnName: 'companyId' })
     messages?: Relation<MessageEntity>[]
-
+ 
     @OneToOne(() => PlanEntity, (planEntity: PlanEntity) => planEntity.company)
    // @JoinColumn({ name: 'planId', referencedColumnName: 'id' })
     plan?: Relation<PlanEntity>
